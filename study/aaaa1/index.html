@@ -1,0 +1,101 @@
+<!--
+ * @Author: 明华
+ * @Date: 2021-05-08 18:06:45
+ * @LastEditors: 明华
+ * @LastEditTime: 2021-05-08 19:20:49
+ * @Description: 
+ * @FilePath: /study/study/aaaa111222333444/index.html
+-->
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <title>H5调用App示例Demo</title>
+    <!-- <link type="text/css" rel="stylesheet" href="css/com.css" />
+    <link type="text/css" rel="stylesheet" href="css/style.css" /> -->
+    <script type="text/javascript" src="js/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="js/vconsole.min.js"></script>
+    <script>
+      // 初始化
+      var vConsole = new VConsole();
+      // console.log('Hello world');
+    </script>
+  </head>
+
+  <body>
+    <br />
+    <button onclick="spitGoodsByChannelPosition(2,3)">出货</button>
+    <button onclick="spitGoodsByChannelPosition(2,3)">出货</button>
+    <button onclick="spitGoodsByChannelPosition(2,3)">出货</button>
+    <button onclick="spitGoodsByChannelPosition(2,3)">出货</button>
+    <button onclick="spitGoodsByChannelPosition(2,3)">出货</button>
+    <button onclick="spitGoodsByChannelPosition(2,3)">出货</button>
+    <div
+      id="dialog"
+      style="
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        z-index: 1000;
+        display: none;
+      "
+    ></div>
+    <p>333</p>
+    <br />
+    <br />
+    <iframe src="https://www.baidu.com/" width="500" height="600"></iframe>
+  </body>
+  <script>
+    function spitGoodsByChannelPosition(row, col) {
+      $("#dialog").toggle();
+      console.log(111111111);
+      // window.alert(222);
+      // 掉货
+      window.WebViewJavascriptBridge.callHandler(
+        "spitGoodsByChannelPosition",
+        { row: parseInt(row), col: parseInt(col) },
+        function (responseData) {
+          console.log(responseData.errorCode);
+        }
+      );
+    }
+
+    connectWebViewJavascriptBridge(function (bridge) {
+      bridge.init(function (message, responseCallback) {
+        console.log("JS got a message", message);
+        var data = {
+          "Javascript Responds": "测试中文!",
+        };
+
+        if (responseCallback) {
+          console.log("JS responding with", data);
+          responseCallback(data);
+        }
+      });
+      bridge.registerHandler(
+        "receiveCommandFromSerialPort",
+        function (data, responseCallback) {
+          appendLog("receiveCommandFromSerialPort: " + data);
+          if (responseCallback) {
+            var responseData = "Javascript Says Right back aka!";
+            responseCallback(responseData);
+          }
+        }
+      );
+      bridge.registerHandler(
+        "spitGoodsResult",
+        function (data, responseCallback) {
+          var dataCode = JSON.parse(data);
+          console.log(dataCode.errorCode);
+          // errorCode:8001: 设备无响应：设备没有对出货指令返回任何响应，通常为串口设置错误；
+          // errorCode:8002: 出货失败：设备对出货指令的返回不符合预期，可能是串口设置错误，设备芯片不符，货道异常，设备故障等等；
+          // errorCode:8003: 出货不成功：设备已成功响应出货指令，但光幕并未在此期间收到触发，可能是卡货，货道空转；
+          // errorCode:0:出货成功，设备已成功响应出货指令，且光幕在此期间收到触发
+        }
+      );
+    });
+  </script>
+</html>

@@ -2,7 +2,7 @@
  * @Author: 明华
  * @Date: 2021-05-08 18:06:45
  * @LastEditors: 明华
- * @LastEditTime: 2021-05-08 18:13:30
+ * @LastEditTime: 2021-05-08 18:34:54
  * @Description: 
  * @FilePath: /study/study/index.test.html
 -->
@@ -25,10 +25,13 @@
 
   <body>
     <button onclick="spitGoodsByChannelPosition(2,3)">出货</button>
+    <button onclick="spitGoodsByChannelPosition(2,3)">出货</button>
+    <iframe src="http://www.baidu.com/"></iframe>
   </body>
   <script>
     function spitGoodsByChannelPosition(row, col) {
       console.log(111111111);
+      alert(22222);
       // 掉货
       window.WebViewJavascriptBridge.callHandler(
         "spitGoodsByChannelPosition",

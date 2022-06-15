@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>设计模式测试</title>
+</head>
+
+<body>
+  <div id='container'>
+    <button id='button'>click</button>
+  </div>
+  <script>
+    // function down() {
+    //   console.log(Date.now());
+    //   for (let i = 0; i < 1000000000; i++) {
+
+    //   }
+    //   setTimeout(() => {
+    //     console.log('22222')
+    //   }, 3000);
+    //   console.log(Date.now());
+    // }
+
+    // function up() {
+    //   console.log('up');
+    // }
+
+    // const button = document.getElementById('button');
+    // button.addEventListener('mousedown', down, false);
+    // button.addEventListener('mouseup', up, false);
+
+    async function testAsync() {
+      const a = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('222222222');
+        }, 2000);
+      });
+      return a;
+    }
+
+    async function b() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject('bbbbbbb');
+        }, 3000);
+      });
+    }
+
+    async function testAsyncTwo() {
+      const a = await testAsync();
+      console.log(a);
+      // const b = await b();
+      // console.log(b);
+      console.log(111111);
+    }
+
+    testAsyncTwo();
+
+  </script>
+</body>
+
+</html>
